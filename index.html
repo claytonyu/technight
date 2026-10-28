@@ -214,10 +214,10 @@ def dna_to_protein(dna):
     pass
 
 
-for message in ["CTATTACGTATT", "ACACTTGAAGAAATC", "GAATAAAAACTTACT", "AGAACATAACTTTTAACACTTATT"]:
+for message in ["ACGCTTGAGGACATT", "TAATGAAGTCGATCACTTACAGCACTCTGCATT", "AGGTAAACGTTTTCAAGACTTCAACTCTTAATT", "TAACGGCCTGCCCTTCTTTATCGTCCGGCACTTCTCATT"]:
     print(message, "codes for", dna_to_protein(message))
 `,
-  cases: [["DNA all the way to protein","TACCGATTT","MAK"],["secret message 1","CTATTACGTATT","DNA"],["secret message 2","ACACTTGAAGAAATC","CELL"],["secret message 3","GAATAAAAACTTACT","LIFE"],["secret message 4","AGAACATAACTTTTAACACTTATT","SCIENCE"]],
+  cases: [["DNA all the way to protein","TACCGATTT","MAK"],["secret message 1","ACGCTTGAGGACATT","CELL"],["secret message 2","TAATGAAGTCGATCACTTACAGCACTCTGCATT","ITSASECRET"],["secret message 3","AGGTAAACGTTTTCAAGACTTCAACTCTTAATT","SICKSSEVEN"],["secret message 4","TAACGGCCTGCCCTTCTTTATCGTCCGGCACTTCTCATT","IAGREEIAGREE"]],
   win: "You decoded every secret message!",
 }];
 
