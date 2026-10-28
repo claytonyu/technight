@@ -49,10 +49,6 @@ pre.out{margin:0;background:#102322;color:#e6f2ee;border-radius:9px;padding:12px
 .checks li.no{background:#fdf0ef;border-color:#f0b6b1}
 .checks small{display:block;margin-top:3px;color:var(--mute);font:13px ui-monospace,Menlo,monospace;word-break:break-all}
 .win{background:#fde68a;border-radius:9px;padding:10px 12px;font-weight:800}
-.hint{background:#fff4e0;border-left:5px solid var(--g);padding:10px 12px;line-height:1.45}
-.hnav{display:flex;gap:8px;align-items:center;margin-bottom:8px}
-.hnav b{flex:1}
-.htext{white-space:pre-wrap}
 details{line-height:1.4}
 summary{cursor:pointer;font-weight:700}
 .book{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:3px 8px;font:13px ui-monospace,Menlo,monospace;margin-top:8px}
@@ -103,59 +99,49 @@ def _chk(raw):
 
 const TABS = [
 {
-  name: "Part 0: Loops", fn: "print_letters",
-  intro: "<b>Warm-up.</b> Python can look at a word one letter at a time using a <b>for loop</b>. Run the example, then finish the two tasks marked YOUR CODE HERE.",
-  code: `# PART 0: WARM-UP WITH LOOPS
-# A string is a row of letters, like "DNA".
-# A for loop visits the letters one at a time, from left to right.
-# (The word "letter" is just a name we picked. You could call it anything!)
+  id: "p0", name: "Part 0: Loops",
+  intro: "<b>Warm-up.</b> Four short tasks, in order. Read the comments, fix or fill in the code, then press Run. Python stops at the first problem it finds, so start with Task 1.",
+  code: `# TASK 1
+# Run this code. Python will complain. Fix it so it prints GATTACA.
 
-# TRY IT: press Run and watch the letters appear.
-for letter in "DNA":
+print(GATTACA)
+
+
+# TASK 2
+# Make rna longer: add a "U" to the end of it, then add a "C".
+
+rna = "AUG"
+# YOUR CODE HERE
+print(rna)
+
+
+# TASK 3
+# Print each letter of the DNA, one letter per line.
+
+dna = "GATTACA"
+for letter in dna:
+    pass # Delete this line and put your code HERE
+
+
+# TASK 4
+# This loop prints each letter. Change it so that after printing a T,
+# it also prints: Found a T!
+
+dna = "ACTTGA"
+for letter in dna:
     print(letter)
-
-# Now change "DNA" to your own name and press Run again.
-
-
-# TASK 1: print the letters
-# Finish this function so it prints each letter of the word
-# on its own line.
-
-def print_letters(word):
-    for letter in word:
-        # YOUR CODE HERE
-        pass
-
-
-# TASK 2: build a new string
-# Finish this function so every letter appears twice.
-# double_letters("DNA") should give "DDNNAA"
-
-def double_letters(word):
-    result = ""              # an empty box that we will fill up
-    for letter in word:
-        # YOUR CODE HERE
-        # Add the letter to the end of result, two times
-        pass
-    return result
-
-
-# Try them out! Change the words and press Run.
-print_letters("RNA")
-print(double_letters("RNA"))
+    # YOUR CODE HERE
 `,
-  cases: [["Task 1: prints each letter on its own line","ACGT","A\nC\nG\nT\n","print_letters","out"],["Task 1: works on a longer word","PROTEIN","P\nR\nO\nT\nE\nI\nN\n","print_letters","out"],["Task 2: doubles each letter","ACGT","AACCGGTT","double_letters"],["Task 2: works on another word","CAT","CCAATT","double_letters"]],
-  win: "Part 0 complete! Loops are how Python reads DNA, one letter at a time.",
-  hints: [
-    "Task 1: look at the example at the top. There, print(letter) sits inside the loop. Do the same thing inside print_letters.",
-    "Task 1, almost the answer: replace the word pass with\n        print(letter)\nIt must be pushed to the right, lined up with the comment above it, so Python knows it belongs inside the loop.",
-    "Task 2: to add something to the end of result, write:\n        result = result + letter\nThat means: make result equal to the old result, plus the letter.",
-    "Task 2: you need the letter to be added two times. You can write that line twice, one after the other.",
-    "Task 2, the answer:\n        result = result + letter\n        result = result + letter"
-  ]
+  checks: [
+    { label: "Task 1: prints GATTACA", line: "GATTACA" },
+    { label: "Task 2: rna grows to AUGUC", line: "AUGUC", v: ["rna", "AUGUC"] },
+    { label: "Task 3: prints each letter on its own line", seq: ["G","A","T","T","A","C","A"] },
+    { label: "Task 4: says Found a T! after each T", seq: ["A","C","T","Found a T!","T","Found a T!","G","A"] }
+  ],
+  win: "Part 0 complete! You can now read DNA one letter at a time."
 },
 {
-  name: "Part 1: DNA to RNA", fn: "dna_to_rna",
+  id: "p1", name: "Part 1: DNA to RNA", fn: "dna_to_rna",
   intro: "<b>Transcription.</b> Cells copy DNA into RNA. Each DNA letter gets a partner letter in the RNA: <b>A</b> pairs with <b>U</b>, <b>T</b> with <b>A</b>, <b>C</b> with <b>G</b>, and <b>G</b> with <b>C</b>. Fill in the spot marked YOUR CODE HERE, then press Run.",
   code: `# PART 1: DNA to RNA
 # Each DNA letter gets a partner letter in the RNA:
@@ -182,15 +168,9 @@ print(dna_to_rna("GATTACA"))
 `,
   cases: [["A gets a U","A","U"],["T gets an A","T","A"],["C gets a G","C","G"],["G gets a C","G","C"],["a mix","ATGC","UACG"],["GATTACA","GATTACA","CUAAUGU"],["a longer strand","TTTAAACCCGGG","AAAUUUGGGCCC"]],
   win: "Part 1 complete! You just did what a cell does every second.",
-  hints: [
-    "Inside the loop, the name letter holds the letter Python is looking at right now. Look at the list of partners in the comments: each letter has exactly one partner.",
-    "There are four possible letters, so you need to ask more than one question. Python chains questions with elif (short for else if):\n    if letter == \"A\":\n        (what to do for A)\n    elif letter == \"T\":\n        (what to do for T)\n    ... and so on, ending with else:",
-    "To add something to the end of rna, write:\n    rna = rna + \"U\"\nThat means: make rna equal to the old rna, plus a U.",
-    "Almost the answer:\n    if letter == \"A\":\n        rna = rna + \"U\"\n    elif letter == \"T\":\n        rna = rna + ____\n    elif letter == \"C\":\n        rna = rna + ____\n    else:\n        rna = rna + ____"
-  ]
 },
 {
-  name: "Part 2: RNA to protein", fn: "rna_to_protein", book: true,
+  id: "p2", name: "Part 2: RNA to protein", fn: "rna_to_protein", book: true,
   intro: "<b>Translation.</b> Cells read RNA three letters at a time. Each group of three (a <b>codon</b>) is one amino acid, and some codons mean STOP. Open the codon book below if you want to look codons up.",
   code: `# PART 2: RNA to protein
 # Cells read RNA three letters at a time.
@@ -220,15 +200,9 @@ print(rna_to_protein("AUGGCUAAA"))
 `,
   cases: [["the START codon","AUG","M"],["three codons","AUGGCUAAA","MAK"],["stops at a STOP codon","AUGUAAGCU","M"],["leftover letters are ignored","AUGGC","M"],["a longer one","UCUUGUAUUGAAAAUUGUGAAUAA","SCIENCE"]],
   win: "Part 2 complete! You just built a protein.",
-  hints: [
-    "Add this line outside the function and press Run:\n    print(CODON_TABLE[\"AUG\"])\nThe square brackets look something up, like a word in a dictionary.",
-    "Inside the loop, the name codon holds the codon Python is looking at. Look up its amino acid:\n    amino_acid = CODON_TABLE[codon]",
-    "Now ask a question about amino_acid:\n    if amino_acid == \"*\":\n        break\n    else:\n        (add it to protein, like in Part 1)\nbreak means: stop the loop right now.",
-    "Almost the answer:\n    amino_acid = CODON_TABLE[codon]\n    if amino_acid == \"*\":\n        break\n    else:\n        protein = protein + ____"
-  ]
 },
 {
-  name: "Bonus: secrets", fn: "dna_to_protein", book: true, needs: [1, 2],
+  id: "bonus", name: "Bonus: secrets", fn: "dna_to_protein", book: true, needs: [1, 2],
   intro: "<b>Bonus.</b> Join your two functions to go from DNA all the way to protein. Each secret DNA string codes for a protein whose letters spell a word. Your code from Parts 1 and 2 is loaded automatically.",
   code: `# BONUS: secret messages
 # Your dna_to_rna and rna_to_protein functions are already loaded.
@@ -245,10 +219,6 @@ for message in ["CTATTACGTATT", "ACACTTGAAGAAATC", "GAATAAAAACTTACT", "AGAACATAA
 `,
   cases: [["DNA all the way to protein","TACCGATTT","MAK"],["secret message 1","CTATTACGTATT","DNA"],["secret message 2","ACACTTGAAGAAATC","CELL"],["secret message 3","GAATAAAAACTTACT","LIFE"],["secret message 4","AGAACATAACTTTTAACACTTATT","SCIENCE"]],
   win: "You decoded every secret message!",
-  hints: [
-    "First turn the DNA into RNA with your first function, and save the answer:\n    rna = dna_to_rna(dna)",
-    "Then give that RNA to your second function and return the answer:\n    return rna_to_protein(rna)"
-  ]
 }];
 
 let py = null;
@@ -267,11 +237,10 @@ TABS.forEach((t, i) => {
         <button class="b" data-a="reset">Start over</button>
         <button class="b go" data-a="run" disabled>Run</button></div>
         <div class="ed"><textarea></textarea></div></div></div>
-    <div class="right"><div class="col"><div class="bar"><span>Results</span><button class="b" data-a="hint">Need a hint?</button></div>
+    <div class="right"><div class="col"><div class="bar"><span>Results</span></div>
       <div class="res"><div class="intro">${t.intro}</div>
         <pre class="out">Press Run to see what happens.</pre>
         <ul class="checks"></ul><div class="win" hidden></div>
-        <div class="hint" hidden><div class="hnav"><b></b><button class="b" data-a="hback">Back</button><button class="b" data-a="hnext">Next hint</button></div><div class="htext"></div></div>
         ${t.book ? BOOK : ""}</div></div></div>`;
   $("#main").append(pane); t.pane = pane;
   pane.querySelectorAll(".tab").forEach(b => (b.onclick = () => show(+b.dataset.i)));
@@ -286,34 +255,22 @@ TABS.forEach((t, i) => {
         "Ctrl-Enter": () => run(t), "Cmd-Enter": () => run(t)
       }
     });
-    t.ed = { get: () => cm.getValue(), set: v => cm.setValue(v), refresh: () => cm.refresh() };
+    t.ed = { get: () => cm.getValue(), set: v => cm.setValue(v), refresh: () => cm.refresh(), onChange: f => cm.on("change", f) };
   } else {
-    t.ed = { get: () => ta.value, set: v => (ta.value = v), refresh() {} };
+    t.ed = { get: () => ta.value, set: v => (ta.value = v), refresh() {}, onChange: f => ta.addEventListener("input", f) };
   }
 
   t.ui = { go: $("[data-a=run]", pane), out: $(".out", pane), checks: $(".checks", pane), win: $(".win", pane) };
   t.ui.go.onclick = () => run(t);
   $("[data-a=reset]", pane).onclick = () => { if (confirm("Start over with the original code? Your changes will be lost.")) t.ed.set(t.code); };
 
-  // Hints: open/close the panel, and step Back / Next through every hint.
-  const box = $(".hint", pane), count = $(".hnav b", pane), text = $(".htext", pane);
-  const back = $("[data-a=hback]", pane), next = $("[data-a=hnext]", pane), toggle = $("[data-a=hint]", pane);
-  const last = t.hints.length - 1;
-  let k = 0;
-  const draw = () => {
-    count.textContent = "Hint " + (k + 1) + " of " + t.hints.length;
-    text.textContent = t.hints[k];
-    back.disabled = k === 0;
-    next.disabled = k === last;
-    next.textContent = k === last ? "That was the last hint. Ask a teacher!" : "Next hint";
-  };
-  toggle.onclick = () => {
-    box.hidden = !box.hidden;
-    toggle.textContent = box.hidden ? "Need a hint?" : "Hide hint";
-    if (!box.hidden) draw();
-  };
-  back.onclick = () => { k--; draw(); };
-  next.onclick = () => { k++; draw(); };
+  // Keep the student's code in this browser so a refresh does not lose it.
+  const KEY = "dnaLab.v1.code." + t.id;
+  try { const saved = localStorage.getItem(KEY); if (saved !== null) t.ed.set(saved); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, t.ed.get()); } catch (e) {} };
+  let timer;
+  t.ed.onChange(() => { clearTimeout(timer); timer = setTimeout(save, 300); });
+  window.addEventListener("pagehide", save);
 });
 
 function show(i) {
@@ -323,12 +280,13 @@ function show(i) {
 }
 show(0);
 
+const hasSeq = (lines, seq) => lines.some((_, i) => seq.every((s, j) => lines[i + j] === s));
 const fmt = v => JSON.stringify(v).replace(/\\n/g, " / ");
 
 function tip(line) {
   if (/IndentationError/.test(line)) return "Tip: check the spaces at the start of your lines.";
   if (/SyntaxError/.test(line)) return "Tip: look for a missing colon :  or a missing quote or bracket.";
-  if (/NameError/.test(line)) return "Tip: Python does not know that name. Check the spelling.";
+  if (/NameError/.test(line)) return "Tip: Python does not know that name. If it should be text, put it in quotes. If it is a name you made, check the spelling.";
   if (/TypeError/.test(line)) return "Tip: something does not fit together. Check what you are adding or calling.";
   return "";
 }
@@ -359,19 +317,25 @@ async function run(t) {
     try { py.runPython(t.ed.get(), { globals: ns }); }
     catch (e) { u.out.textContent = buf.length ? buf.join("\n") + "\n\n" : ""; showErr(u, e); return; }
     u.out.textContent = buf.join("\n") || "(Your code ran but printed nothing. Add a print line to see something!)";
-    const chk = ns.get("_chk");
-    const res = JSON.parse(chk(JSON.stringify(t.cases.map(c => [c[0], c[3] || t.fn, c[1], c[2], c[4] || "ret"]))));
-    chk.destroy();
+    let res;
+    if (t.checks) {
+      const lines = buf.map(s => s.trimEnd());
+      res = t.checks.map(c => {
+        const ok = (c.seq ? hasSeq(lines, c.seq) : lines.includes(c.line)) && (!c.v || ns.get(c.v[0]) === c.v[1]);
+        return { label: c.label, ok, note: "we wanted your program to print " + (c.seq ? c.seq.join(" / ") : c.line) + ". It printed: " + (lines.slice(0, 14).join(" / ") || "nothing") };
+      });
+    } else {
+      const chk = ns.get("_chk");
+      res = JSON.parse(chk(JSON.stringify(t.cases.map(c => [c[0], c[3] || t.fn, c[1], c[2], c[4] || "ret"]))))
+        .map(([label, ok, given, want, got]) => ({ label, ok, note: "we gave it " + fmt(given) + ", we wanted " + fmt(want) + ", you gave us " + fmt(got) }));
+      chk.destroy();
+    }
     let all = true;
-    for (const [label, ok, given, want, got] of res) {
-      all = all && ok;
-      const li = document.createElement("li"); li.className = ok ? "ok" : "no";
-      li.textContent = (ok ? "Passed: " : "Not yet: ") + label;
-      if (!ok) {
-        const s = document.createElement("small");
-        s.textContent = "we gave it " + fmt(given) + ", we wanted " + fmt(want) + ", you gave us " + fmt(got);
-        li.append(s);
-      }
+    for (const r of res) {
+      all = all && r.ok;
+      const li = document.createElement("li"); li.className = r.ok ? "ok" : "no";
+      li.textContent = (r.ok ? "Passed: " : "Not yet: ") + r.label;
+      if (!r.ok) { const s = document.createElement("small"); s.textContent = r.note; li.append(s); }
       u.checks.append(li);
     }
     if (all) { u.win.textContent = t.win; u.win.hidden = false; }
